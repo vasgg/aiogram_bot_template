@@ -18,5 +18,5 @@ class UpdatesDumperMiddleware(BaseMiddleware):
         logging.info(json_event)
         res = await handler(event, data)
         if res is UNHANDLED:
-            logging.info('UNHANDLED')
+            logging.info("UNHANDLED")
         return res

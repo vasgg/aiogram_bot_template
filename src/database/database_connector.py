@@ -1,17 +1,22 @@
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import (AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine)
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
-from config import settings
+from bot.config import Settings
 
 
 class DatabaseConnector:
     def __init__(
-            self,
-            url: str,
-            echo: bool = False,
-            pool_size: int = 5,
-            max_overflow: int = 10,
+        self,
+        url: str,
+        echo: bool = False,
+        pool_size: int = 5,
+        max_overflow: int = 10,
     ) -> None:
         self.engine: AsyncEngine = create_async_engine(
             url=url,
@@ -34,10 +39,10 @@ class DatabaseConnector:
             yield session
 
 
-def get_db() -> DatabaseConnector:
+def get_db(settings: Settings) -> DatabaseConnector:
     return DatabaseConnector(
-        url=settings.postgres_db_url,
-        echo=settings.echo,
-        pool_size=settings.pool_size,
-        max_overflow=settings.max_overflow,
+        url=settings.db.pg_dsn.get_secret_value(),
+        echo=settings.db.echo,
+        pool_size=settings.db.pool_size,
+        max_overflow=settings.db.max_overflow,
     )

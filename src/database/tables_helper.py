@@ -12,7 +12,7 @@ async def create_or_drop_db(engine: AsyncEngine, create: bool = True):
             await conn.run_sync(Base.metadata.drop_all)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import asyncio
 
     db = get_db()

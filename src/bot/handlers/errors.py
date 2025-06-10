@@ -5,7 +5,7 @@ import typing
 import aiogram
 from aiogram import Router
 
-from config import settings
+from bot.config import Settings
 
 if typing.TYPE_CHECKING:
     from aiogram.types.error_event import ErrorEvent
@@ -14,9 +14,9 @@ router = Router()
 
 
 @router.errors()
-async def error_handler(error_event: "ErrorEvent", bot: aiogram.Bot):
+async def error_handler(error_event: "ErrorEvent", bot: aiogram.Bot, settings: Settings) -> None:
     exc_info = error_event.exception
-    exc_traceback = ''.join(traceback.format_exception(None, exc_info, exc_info.__traceback__))
+    exc_traceback = "".join(traceback.format_exception(None, exc_info, exc_info.__traceback__))
     tb = exc_traceback[-3500:]
 
     error_message = (
@@ -25,4 +25,7 @@ async def error_handler(error_event: "ErrorEvent", bot: aiogram.Bot):
     )
     logging.exception("Exception:", exc_info=exc_info)
 
-    await bot.send_message(settings.ADMIN, error_message)
+    try:
+        await bot.send_message(settings.bot.admin, error_message)
+    except Exception as e:
+        logging.error(f"Failed to send error message to admin: {e}")

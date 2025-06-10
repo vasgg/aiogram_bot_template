@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from config import settings
+from bot.config import get_settings
 from database.models import Base
 
 # this is the Alembic Config object, which provides
@@ -30,11 +30,11 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-config.set_main_option("sqlalchemy.url", settings.postgres_db_url)
+settings = get_settings()
+config.set_main_option("sqlalchemy.url", settings.db.pg_dsn.get_secret_value())
 
 
 def run_migrations_offline() -> None:
-
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -55,7 +55,6 @@ def do_run_migrations(connection: Connection) -> None:
 
 
 async def run_async_migrations() -> None:
-
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         poolclass=pool.NullPool,
@@ -68,7 +67,6 @@ async def run_async_migrations() -> None:
 
 
 def run_migrations_online() -> None:
-
     asyncio.run(run_async_migrations())
 
 

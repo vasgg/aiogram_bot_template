@@ -1,14 +1,13 @@
 services:
   postgres:
-    image: postgres:15
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: lead_db
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5444:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  pg_data:
