@@ -4,7 +4,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message
 
 
-from database.database_connector import DatabaseConnector
+from database.db_connector import DatabaseConnector
 
 
 class DBSessionMiddleware(BaseMiddleware):

@@ -13,10 +13,10 @@ from bot.handlers.errors import router as errors_router
 from bot.internal.commands import set_bot_commands
 from bot.internal.helpers import setup_logs
 from bot.internal.notify_admin import on_shutdown, on_startup
-from bot.middlewares.auth_middleware import AuthMiddleware
-from bot.middlewares.session_middleware import DBSessionMiddleware
-from bot.middlewares.updates_dumper_middleware import UpdatesDumperMiddleware
-from database.database_connector import get_db
+from bot.middlewares.auth import AuthMiddleware
+from bot.middlewares.session import DBSessionMiddleware
+from bot.middlewares.updates_dumper import UpdatesDumperMiddleware
+from database.db_connector import get_db
 
 
 async def main():
