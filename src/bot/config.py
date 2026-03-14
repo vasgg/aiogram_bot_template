@@ -16,10 +16,7 @@ class BotConfig(BaseSettings):
 
 
 class RedisConfig(BaseSettings):
-    host: str
-    port: int
-    username: str
-    password: SecretStr
+    url: SecretStr
 
     model_config = assign_config_dict(prefix="REDIS_")
 

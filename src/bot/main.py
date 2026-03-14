@@ -24,13 +24,7 @@ async def main():
     settings: Settings = get_settings()
 
     bot = Bot(token=settings.bot.token.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    redis_client = Redis(
-        host=settings.redis.host,
-        port=settings.redis.port,
-        username=settings.redis.username,
-        password=settings.redis.password.get_secret_value(),
-        decode_responses=True,
-    )
+    redis_client = Redis.from_url(settings.redis.url.get_secret_value(), decode_responses=True)
     storage = RedisStorage(redis_client)
     dispatcher = Dispatcher(storage=storage, settings=settings)
     db = get_db(settings)

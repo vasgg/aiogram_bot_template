@@ -30,7 +30,13 @@ That's it — you're ready to build your own aiogram bot!
     make install
     ```
 
-- Create your `.env` file (see example in `.env.example`) and set all required environment variables.
+- Start local infrastructure for development:
+
+    ```bash
+    make db-up
+    ```
+
+- Create your `.env` file from `.env.example`. The example is prefilled for local Postgres on `127.0.0.1:5444` and Redis at `redis://127.0.0.1:6379/0`.
 
 ## 🛠 Common Commands
 
@@ -38,6 +44,7 @@ That's it — you're ready to build your own aiogram bot!
 make run
 make check
 make db-up
+make db-down
 make migrate
 make revision MESSAGE=add_users_table
 ```
