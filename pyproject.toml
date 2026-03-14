@@ -26,8 +26,9 @@ dependencies = [
     "redis>=7.3.0",
     "ruff>=0.15.6",
     "sqlalchemy>=2.0.48",
-
 ]
+
+[dependency-groups]
 typing = [
     "ty>=0.0.23",
 ]
