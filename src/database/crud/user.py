@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database.models import User
 
 
-async def add_user_to_db(user: AiogramUser, db_session) -> User:
+async def add_user_to_db(user: AiogramUser, db_session: AsyncSession) -> User:
     new_user = User(
         id=user.id,
         fullname=user.full_name,

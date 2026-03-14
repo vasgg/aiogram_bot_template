@@ -1,8 +1,8 @@
-from typing import Any, Awaitable, Callable, Dict
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 from aiogram import BaseMiddleware
-from aiogram.types import Message
-
+from aiogram.types import TelegramObject
 
 from database.db_connector import DatabaseConnector
 
@@ -13,11 +13,10 @@ class DBSessionMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
-        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-        event: Message,
-        data: Dict[str, Any],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: dict[str, Any],
     ) -> Any:
         async with self.db.session_factory.begin() as db_session:
             data["db_session"] = db_session
-            res = await handler(event, data)
-            return res
+            return await handler(event, data)

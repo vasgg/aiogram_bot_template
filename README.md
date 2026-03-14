@@ -19,11 +19,16 @@ That's it — you're ready to build your own aiogram bot!
 **Requirements:** [uv](https://github.com/astral-sh/uv)
 
 
-- Set up the environment and install dependencies:
+- Set up the development environment and install runtime + dev dependencies:
 
     ```bash
     uv sync
-    uv pip install -Ue .
+    ```
+
+- If you only need runtime dependencies, use:
+
+    ```bash
+    uv sync --no-dev
     ```
 
 - Create your `.env` file (see example in `.env.example`) and set all required environment variables.
