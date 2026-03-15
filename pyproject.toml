@@ -50,5 +50,11 @@ exclude = [
     "alembic",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "migration: tests Alembic upgrades and downgrades against PostgreSQL",
+]
+
 [project.scripts]
 bot-run = "bot.main:run_main"

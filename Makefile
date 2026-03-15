@@ -8,7 +8,7 @@ REVISION ?= -1
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install install-dev run lint format typecheck test check pre-commit lock lock-upgrade db-up db-down db-logs migrate downgrade revision
+.PHONY: help install install-dev run lint format typecheck test test-migrations check pre-commit lock lock-upgrade db-up db-down db-logs migrate downgrade revision
 
 help: ## Show available commands
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "\033[36m%-14s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -37,6 +37,9 @@ test: ## Run pytest if tests exist
 	else \
 		echo "No tests found."; \
 	fi
+
+test-migrations: ## Run the Alembic migration ladder test
+	$(UV) run pytest -m migration tests/test_alembic_migrations.py
 
 check: ## Run linting, type checks, and tests
 	$(MAKE) lint

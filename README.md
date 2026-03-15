@@ -45,9 +45,12 @@ make run
 make check
 make db-up
 make db-down
+make test-migrations
 make migrate
 make revision MESSAGE=add_users_table
 ```
+
+Migration tests use the local Postgres instance from `compose.yml`, so start it with `make db-up` before running `make test-migrations`.
 
 ## 🚀 Running the Bot
 

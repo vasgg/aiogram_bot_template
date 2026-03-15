@@ -7,8 +7,10 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from bot.config import get_settings
+from bot.config import DBConfig
 from database.models import Base
+
+DEFAULT_ALEMBIC_URL = "driver://user:pass@localhost/dbname"
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -30,8 +32,12 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-settings = get_settings()
-config.set_main_option("sqlalchemy.url", settings.db.pg_dsn.get_secret_value())
+sqlalchemy_url = config.get_main_option("sqlalchemy.url")
+if not sqlalchemy_url or sqlalchemy_url == DEFAULT_ALEMBIC_URL:
+    db_config = DBConfig()
+    sqlalchemy_url = db_config.pg_dsn.get_secret_value()
+
+config.set_main_option("sqlalchemy.url", sqlalchemy_url)
 
 
 def run_migrations_offline() -> None:
