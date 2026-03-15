@@ -1,4 +1,5 @@
 import asyncio
+from argparse import ArgumentParser
 import logging.config
 
 from aiogram import Bot, Dispatcher
@@ -19,9 +20,9 @@ from bot.middlewares.updates_dumper import UpdatesDumperMiddleware
 from database.db_connector import get_db
 
 
-async def main():
+async def main(config_path: str | None = None):
     setup_logs("bot")
-    settings: Settings = get_settings()
+    settings: Settings = get_settings(config_path)
 
     bot = Bot(token=settings.bot.token.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     redis_client = Redis.from_url(settings.redis.url.get_secret_value(), decode_responses=True)
@@ -45,7 +46,10 @@ async def main():
 
 
 def run_main():
-    asyncio.run(main())
+    parser = ArgumentParser()
+    parser.add_argument("--config", default="config.toml", help="Path to the TOML config file.")
+    args = parser.parse_args()
+    asyncio.run(main(args.config))
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ A modern Telegram bot template with rapid project setup powered by [uv](https://
 - Update `pyproject.toml`:
     - Change the `name`, `description`, `authors`, and any other relevant fields.
 
-- Update `.env` as needed for your project.
+- Update `config.toml` as needed for your project.
 
 - Follow the installation and usage steps below.
 
@@ -36,7 +36,13 @@ That's it — you're ready to build your own aiogram bot!
     make db-up
     ```
 
-- Create your `.env` file from `.env.example`. The example is prefilled for local Postgres on `127.0.0.1:5444` and Redis at `redis://127.0.0.1:6379/0`.
+- Create your local config file:
+
+    ```bash
+    cp config.toml.example config.toml
+    ```
+
+- Update `config.toml`. The example is grouped by `[bot]`, `[redis]`, and `[db]`, and is prefilled for local Postgres on `127.0.0.1:5444` and Redis at `redis://127.0.0.1:6379/0`.
 
 ## 🛠 Common Commands
 
@@ -47,10 +53,11 @@ make db-up
 make db-down
 make test-migrations
 make migrate
+make run CONFIG=config.toml
 make revision MESSAGE=add_users_table
 ```
 
-Migration tests use the local Postgres instance from `compose.yml`, so start it with `make db-up` before running `make test-migrations`.
+Migration tests use the local Postgres instance from `compose.yml`, so start it with `make db-up` before running `make test-migrations`. Runtime and Alembic commands read settings from `config.toml` by default; override the path with `CONFIG=...` if needed.
 
 ## 🚀 Running the Bot
 

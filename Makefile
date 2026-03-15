@@ -3,6 +3,7 @@ SHELL := /bin/sh
 UV ?= uv
 DOCKER_COMPOSE ?= docker compose
 PYTEST_PATHS ?= src tests
+CONFIG ?= config.toml
 MESSAGE ?=
 REVISION ?= -1
 
@@ -20,7 +21,7 @@ install-dev: ## Install runtime and development dependencies
 	$(UV) sync
 
 run: ## Run the bot
-	$(UV) run bot-run
+	$(UV) run bot-run --config $(CONFIG)
 
 lint: ## Run Ruff checks
 	$(UV) run ruff check src
@@ -65,11 +66,11 @@ db-logs: ## Tail compose service logs
 	$(DOCKER_COMPOSE) logs -f
 
 migrate: ## Apply all Alembic migrations
-	$(UV) run alembic upgrade head
+	$(UV) run alembic -x config=$(CONFIG) upgrade head
 
 downgrade: ## Roll back Alembic migrations, use REVISION=<target>
-	$(UV) run alembic downgrade $(REVISION)
+	$(UV) run alembic -x config=$(CONFIG) downgrade $(REVISION)
 
 revision: ## Create an Alembic revision, use MESSAGE=<name>
 	@test -n "$(MESSAGE)" || (echo "Usage: make revision MESSAGE=add_users_table" && exit 1)
-	$(UV) run alembic revision --autogenerate -m "$(MESSAGE)"
+	$(UV) run alembic -x config=$(CONFIG) revision --autogenerate -m "$(MESSAGE)"
