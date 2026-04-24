@@ -90,7 +90,6 @@ celerybeat.pid
 
 # Environments
 .env
-config.toml
 .venv
 env/
 venv/

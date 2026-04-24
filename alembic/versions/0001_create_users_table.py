@@ -25,6 +25,7 @@ def upgrade() -> None:
         sa.Column("username", sa.String(length=32), nullable=True),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("id"),
     )
 
 

@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from bot.config import DEFAULT_CONFIG_PATH, get_settings
+from bot.config import DBConfig
 from database.models import Base
 
 DEFAULT_ALEMBIC_URL = "driver://user:pass@localhost/dbname"
@@ -34,9 +34,8 @@ target_metadata = Base.metadata
 
 sqlalchemy_url = config.get_main_option("sqlalchemy.url")
 if not sqlalchemy_url or sqlalchemy_url == DEFAULT_ALEMBIC_URL:
-    x_args = context.get_x_argument(as_dictionary=True)
-    config_path = x_args.get("config", str(DEFAULT_CONFIG_PATH))
-    sqlalchemy_url = get_settings(config_path).db.pg_dsn.get_secret_value()
+    db_config = DBConfig()
+    sqlalchemy_url = db_config.pg_dsn.get_secret_value()
 
 config.set_main_option("sqlalchemy.url", sqlalchemy_url)
 
